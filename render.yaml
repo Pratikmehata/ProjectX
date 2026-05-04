@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: rigcraft-backend
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn api:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false        # you'll paste this in Render dashboard
+      - key: AI_PROVIDER
+        value: gemini
+      - key: ALLOWED_ORIGINS
+        value: https://rigcraft.vercel.app  # update after Vercel deploy
+      - key: ENVIRONMENT
+        value: production
