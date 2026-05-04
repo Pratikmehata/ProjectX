@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Rigcraft - AI-powered PC build recommendation engine. Get compatible, budget-optimized PC builds instantly." />
+    <meta name="theme-color" content="#0d0b08" />
+    <title>Rigcraft · PC Build Recommender</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body {
+        background: #0d0b08;
+        color: #e8e0d0;
+        font-family: sans-serif;
+      }
+      #root { min-height: 100vh; }
+
+      /* Loading splash before React mounts */
+      #splash {
+        position: fixed;
+        inset: 0;
+        background: #0d0b08;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 16px;
+        z-index: 9999;
+        transition: opacity 0.4s ease;
+      }
+      #splash.hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+      #splash-logo {
+        font-size: 32px;
+        letter-spacing: 4px;
+        font-weight: 800;
+        color: #f0c040;
+      }
+      #splash-bar {
+        width: 120px;
+        height: 2px;
+        background: rgba(255,255,255,0.08);
+        border-radius: 2px;
+        overflow: hidden;
+      }
+      #splash-bar::after {
+        content: '';
+        display: block;
+        height: 100%;
+        width: 40%;
+        background: #f0a500;
+        border-radius: 2px;
+        animation: slide 1s ease-in-out infinite alternate;
+      }
+      @keyframes slide {
+        from { transform: translateX(0); }
+        to { transform: translateX(200%); }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Splash screen shown before React hydrates -->
+    <div id="splash">
+      <div id="splash-logo">⚡ RIGCRAFT</div>
+      <div id="splash-bar"></div>
+    </div>
+
+    <div id="root"></div>
+
+    <script>
+      // Hide splash once React has mounted
+      window.addEventListener('load', () => {
+        setTimeout(() => {
+          const splash = document.getElementById('splash');
+          if (splash) splash.classList.add('hidden');
+        }, 600);
+      });
+    </script>
+
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
