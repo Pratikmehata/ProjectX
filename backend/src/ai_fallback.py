@@ -63,12 +63,14 @@ class _AIProvider(ABC):
 
 class _GeminiProvider(_AIProvider):
     def __init__(self, api_key: str):
-        import google.generativeai as genai
-        genai.configure(api_key=api_key)
-        self._model = genai.GenerativeModel("gemini-2.5-flash")
+        from google import genai
+        self._client = genai.Client(api_key=api_key)
 
     def generate(self, prompt: str) -> str:
-        response = self._model.generate_content(prompt)
+        response = self._client.models.generate_content(
+            model="gemini-1.5-flash",
+            contents=prompt,
+        )
         return response.text
 
 
