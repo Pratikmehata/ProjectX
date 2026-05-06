@@ -33,10 +33,10 @@ def _get_model():
         )
 
     try:
-        import google.generativeai as genai
-        genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
-        _gemini_model = genai.GenerativeModel("gemini-2.5-flash")
-        logger.info("Gemini model initialised for AI panel")
+        from google import genai
+        client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+        _gemini_model = client
+        logger.info("Gemini client initialised for AI panel")
         return _gemini_model
     except ImportError:
         raise HTTPException(
@@ -51,7 +51,10 @@ def _call_ai(prompt: str) -> str:
     """Call Gemini and return text response."""
     model = _get_model()
     try:
-        response = model.generate_content(prompt)
+        response = model.models.generate_content(
+            model="gemini-1.5-flash",
+            contents=prompt,
+        )
         return response.text.strip()
     except Exception as exc:
         logger.error("Gemini API error: %s", exc)
