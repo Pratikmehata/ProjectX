@@ -68,7 +68,7 @@ class _GeminiProvider(_AIProvider):
 
     def generate(self, prompt: str) -> str:
         response = self._client.models.generate_content(
-            model="gemini-1.5-flash",
+            model="gemini-2.5-flash",
             contents=prompt,
         )
         return response.text
